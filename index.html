@@ -97,7 +97,7 @@
         <select name="presets"></select>
       </label>
       <label>
-        <input checked name="animate" type="checkbox"/>
+        <input name="animate" type="checkbox"/>
         <span>Animate</span>
       </label>
     </fieldset>
@@ -203,6 +203,40 @@
       b: -1,
       delta: 0
     },
+    'Triangle': {
+      ...sweepDefaults,
+      a: 1,
+      b: 1,
+      delta: 90,
+      step: 120,
+    },
+    'Square': {
+      ...sweepDefaults,
+      a: 1,
+      b: 1,
+      delta: 90,
+      step: 90
+    },
+    'Hexagon': {
+      ...sweepDefaults,
+      a: 1,
+      b: 1,
+      delta: 90,
+      step: 60
+    },
+    'Octagon': {
+      ...sweepDefaults,
+      a: 1,
+      b: 1,
+      delta: 90,
+      step: 45
+    },
+    'Circle': {
+      ...sweepDefaults,
+      a: 1,
+      b: 1,
+      delta: 90
+    },
     'Line Vertical': {
       ...sweepDefaults,
       a: 0,
@@ -221,50 +255,51 @@
       b: 1,
       delta: 180
     },
-    'Circle': {
-      ...sweepDefaults,
-      a: 1,
-      b: 1,
-      delta: 90
-    }
   }
 
-  const params = {...Object.values(Presets)[0]}
-  let animate
+  const state = {
+    ...Object.values(Presets)[0],
+    animate: true
+  }
 
-  setupControls(document.querySelector('header > form'))
-
-  function setupControls(form) {
-    syncInputFields()
-
-    function syncInputFields() {
-      for (const [k, v] of Object.entries(params))
-        document.querySelector(`[name="${k}"]`).value = v
-    }
-
-    const presets = form.querySelector('[name="presets"]')
+  setupControls()
+  function setupControls() {
+    const form = document.querySelector('header > form')
+    const allNumericInputs = form.querySelectorAll('[type="number"]')
+    const animateCheckbox = form.querySelector('[name="animate"]')
+    const presetsDropdown = form.querySelector('[name="presets"]')
+    
+    // Populate Presets Options
     for (const k of Object.keys(Presets)) {
       const option = document.createElement('option')
       option.value = k
       option.text = k
-      presets.add(option)
+      presetsDropdown.add(option)
     }
-    presets.addEventListener('change', (event) => {
-      Object.assign(params, Presets[event.target.value])
-      syncInputFields()
+
+    syncState()
+    function syncState() {
+      for (const [k, v] of Object.entries(state))
+        form.elements[k].value = v
+      animateCheckbox.checked = state.animate
+    }
+
+    /* Event Handlers */
+    
+    presetsDropdown.addEventListener('change', (event) => {
+      Object.assign(state, Presets[event.target.value])
+      syncState()
     })
 
-    for (const input of form.querySelectorAll('input[type=number]'))
+    for (const input of allNumericInputs)
       input.addEventListener('change', function () {
-        params[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
-        this.value = params[this.name]
-        presets.selectedIndex = -1
+        state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
+        this.value = state[this.name]
+        presetsDropdown.selectedIndex = -1
       })
 
-    const animateCheckbox = form.querySelector('[name="animate"]')
-    animate = animateCheckbox.checked
     animateCheckbox.addEventListener('change', function () {
-      animate = this.checked
+      state.animate = this.checked
     })
   }
 
@@ -299,8 +334,8 @@
     }
 
     function render(elapsed) {
+      const {a, b, delta, minAngle, maxAngle, step, animate} = state
       const secondsSoFar = animate ? elapsed / 1000 : 1
-      const {a, b, delta, minAngle, maxAngle, step} = params
 
       ctx.clearRect(0, 0, width, height)
       ctx.beginPath()
