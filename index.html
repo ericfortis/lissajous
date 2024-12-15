@@ -97,6 +97,10 @@
         <select name="presets"></select>
       </label>
       <label>
+        <span>Rings</span>
+        <input min="1" name="nRings" step="1" type="number"/>
+      </label>
+      <label>
         <input name="animate" type="checkbox"/>
         <span>Animate</span>
       </label>
@@ -121,15 +125,15 @@
     <fieldset>
       <legend>Sweep (deg)</legend>
       <label>
-        <span>min</span>
+        <span>Min</span>
         <input min="0" name="minAngle" step="10" type="number"/>
       </label>
       <label>
-        <span>max</span>
+        <span>Max</span>
         <input min="0" name="maxAngle" step="10" type="number"/>
       </label>
       <label>
-        <span>step</span>
+        <span>Step</span>
         <input max="360" min="1" name="step" step="5" type="number"/>
       </label>
     </fieldset>
@@ -259,16 +263,18 @@
 
   const state = {
     ...Object.values(Presets)[0],
-    animate: true
+    animate: true,
+    nRings: 1
   }
 
   setupControls()
+
   function setupControls() {
     const form = document.querySelector('header > form')
     const allNumericInputs = form.querySelectorAll('[type="number"]')
     const animateCheckbox = form.querySelector('[name="animate"]')
     const presetsDropdown = form.querySelector('[name="presets"]')
-    
+
     // Populate Presets Options
     for (const k of Object.keys(Presets)) {
       const option = document.createElement('option')
@@ -278,6 +284,7 @@
     }
 
     syncState()
+
     function syncState() {
       for (const [k, v] of Object.entries(state))
         form.elements[k].value = v
@@ -285,7 +292,7 @@
     }
 
     /* Event Handlers */
-    
+
     presetsDropdown.addEventListener('change', (event) => {
       Object.assign(state, Presets[event.target.value])
       syncState()
@@ -295,7 +302,8 @@
       input.addEventListener('change', function () {
         state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
         this.value = state[this.name]
-        presetsDropdown.selectedIndex = -1
+        if (this.name !== 'nRings')
+          presetsDropdown.selectedIndex = -1
       })
 
     animateCheckbox.addEventListener('change', function () {
@@ -317,7 +325,7 @@
 
     const ctx = canvas.getContext('2d')
 
-    let width, height, xOrigin, yOrigin, amplitude, raf
+    let width, height, xOrigin, yOrigin, maxAmplitude, raf
     setupDimensions()
     window.addEventListener('resize', setupDimensions)
 
@@ -327,30 +335,33 @@
       canvas.height = height = size.height
       xOrigin = width / 2
       yOrigin = height / 2
-      amplitude = Math.min(height, width) / 4
+      maxAmplitude = Math.min(height, width) / 4
 
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(render)
     }
 
     function render(elapsed) {
-      const {a, b, delta, minAngle, maxAngle, step, animate} = state
+      const {a, b, delta, minAngle, maxAngle, step, animate, nRings} = state
       const secondsSoFar = animate ? elapsed / 1000 : 1
 
       ctx.clearRect(0, 0, width, height)
-      ctx.beginPath()
-      for (let angle = radians(minAngle);
-           angle < radians(maxAngle) + radians(step);
-           angle += radians(step)) {
-        ctx.lineTo(
-          xOrigin + amplitude * Math.sin(secondsSoFar + a * angle + radians(delta)),
-          yOrigin + amplitude * Math.sin(secondsSoFar + b * angle))
-      }
       ctx.lineWidth = 5
       ctx.shadowBlur = 10
       ctx.shadowColor = '#64dd17'
-      ctx.strokeStyle = '#a8f876'
-      ctx.stroke()
+      ctx.strokeStyle = '#a8f876cc'
+
+      for (let i = 1; i <= nRings; i++) {
+        const amplitude = i / nRings * maxAmplitude
+        ctx.beginPath()
+        for (let angle = minAngle; angle < maxAngle + step; angle += step) {
+          const angRad = radians(angle)
+          ctx.lineTo(
+            xOrigin + amplitude * Math.sin(secondsSoFar + a * angRad + radians(delta)),
+            yOrigin + amplitude * Math.sin(secondsSoFar + b * angRad))
+        }
+        ctx.stroke()
+      }
 
       raf = requestAnimationFrame(render)
     }
