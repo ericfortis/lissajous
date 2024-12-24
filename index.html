@@ -91,18 +91,10 @@
 <header>
   <form>
     <fieldset>
-      <legend>Lissajous Curves</legend>
+      <legend>Lissajous Curve</legend>
       <label>
         <span>Presets</span>
         <select name="presets"></select>
-      </label>
-      <label>
-        <span>Rings</span>
-        <input min="1" name="nRings" step="1" type="number"/>
-      </label>
-      <label>
-        <input name="animate" type="checkbox"/>
-        <span>Animate</span>
       </label>
     </fieldset>
 
@@ -139,6 +131,26 @@
     </fieldset>
 
     <fieldset>
+      <legend>Misc</legend>
+      <label>
+        <span>Rings</span>
+        <input min="1" name="nRings" step="1" type="number"/>
+      </label>
+      <label>
+        <span>X-scale</span>
+        <input min="0.01" max="2" name="xScale" step=".1" type="number"/>
+      </label>
+      <label>
+        <span>Y-scale</span>
+        <input min="0.01" max="2" name="yScale" step=".1" type="number"/>
+      </label>
+      <label>
+        <input name="animate" type="checkbox"/>
+        <span>Animate</span>
+      </label>
+    </fieldset>
+
+    <fieldset>
       <legend>Links</legend>
       <a href="https://github.com/ericfortis/lissajous" target="_blank">
         <svg viewBox="0 0 98 96" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -164,101 +176,129 @@
 </body>
 
 <script>
-  const sweepDefaults = {
+  const defaults = {
     minAngle: 0,
     maxAngle: 360,
-    step: 1
+    step: 1,
+    xScale: 1,
+    yScale: 1,
   }
 
   const Presets = {
     'Logo Meta': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: -2,
       delta: 9
     },
     'Logo Australian Broad Casting Corp': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 3,
       delta: 90
     },
     'Logo Lincoln Lab at MIT': {
-      ...sweepDefaults,
+      ...defaults,
       a: 3,
       b: 4,
       delta: 90
     },
     'Logo Else at Berlin': {
-      ...sweepDefaults,
+      ...defaults,
       a: 3,
       b: 2,
       delta: 90
     },
     'Logo University Electro-Communication Japan': {
-      ...sweepDefaults,
+      ...defaults,
       a: 5,
       b: 6,
       delta: 90
     },
     'Ellipse': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: -1,
       delta: 0
     },
     'Triangle': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 90,
       step: 120,
     },
     'Square': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 90,
       step: 90
     },
     'Hexagon': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 90,
       step: 60
     },
     'Octagon': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 90,
       step: 45
     },
     'Circle': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 90
     },
     'Line Vertical': {
-      ...sweepDefaults,
+      ...defaults,
       a: 0,
       b: 1,
       delta: 0
     },
     'Line Horizontal': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 0,
       delta: 0
     },
     'Line Diagonal': {
-      ...sweepDefaults,
+      ...defaults,
       a: 1,
       b: 1,
       delta: 180
     },
+    'Spring': {
+      ...defaults,
+      a: 6,
+      b: 1,
+      delta: 15
+    },
+    'Eight': {
+      ...defaults,
+      a: 2,
+      b: 1,
+      delta: 57,
+      xScale: 0.4
+    },
+    'Infinity': {
+      ...defaults,
+      a: 1,
+      b: 2,
+      delta: 60,
+      yScale: 0.4
+    },
+    'Parabola': {
+      ...defaults,
+      a: 1,
+      b: 2,
+      delta: 286
+    }
   }
 
   const state = {
@@ -342,7 +382,7 @@
     }
 
     function render(elapsed) {
-      const {a, b, delta, minAngle, maxAngle, step, animate, nRings} = state
+      const {a, b, delta, minAngle, maxAngle, step, animate, nRings, xScale, yScale} = state
       const secondsSoFar = animate ? elapsed / 1000 : 1
 
       ctx.clearRect(0, 0, width, height)
@@ -357,8 +397,8 @@
         for (let angle = minAngle; angle < maxAngle + step; angle += step) {
           const angRad = radians(angle)
           ctx.lineTo(
-            xOrigin + amplitude * Math.sin(secondsSoFar + a * angRad + radians(delta)),
-            yOrigin + amplitude * Math.sin(secondsSoFar + b * angRad))
+            xOrigin + amplitude * xScale * Math.sin(secondsSoFar + a * angRad + radians(delta)),
+            yOrigin + amplitude * yScale * Math.sin(secondsSoFar + b * angRad))
         }
         ctx.stroke()
       }
