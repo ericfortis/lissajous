@@ -301,8 +301,13 @@
     }
   }
 
+  const preset = new URLSearchParams(window.location.search).get('preset')
+  const initialPreset = preset in Presets
+    ? preset
+    : Object.keys(Presets)[0]
+
   const state = {
-    ...Object.values(Presets)[0],
+    ...Presets[initialPreset],
     animate: true,
     nRings: 1
   }
@@ -322,6 +327,7 @@
       option.text = k
       presetsDropdown.add(option)
     }
+    presetsDropdown.value = initialPreset
 
     syncState()
 
@@ -343,7 +349,7 @@
         state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
         this.value = state[this.name]
         if (this.name !== 'nRings')
-          presetsDropdown.selectedIndex = -1
+          presetsDropdown.value = ''
       })
 
     animateCheckbox.addEventListener('change', function () {
