@@ -108,7 +108,13 @@
     </fieldset>
 
     <fieldset>
-      <legend>Sine</legend>
+      <legend>
+        <math>
+          <mi>x</mi><mo>=</mo><mi>A</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>a</mi><mi>t</mi><mo>+</mo><mi>δ</mi><mo>)</mo>
+          <mo>,</mo><mspace width="6px"/>
+          <mi>y</mi><mo>=</mo><mi>B</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>b</mi><mi>t</mi><mo>)</mo>
+        </math>
+      </legend>
       <label>
         <span>a</span>
         <input name="a" step="0.5" type="number"/>
@@ -121,6 +127,15 @@
         <span>δ</span>
         <input max="360" name="delta" step="1" type="number"/>
       </label>
+      <label>
+        <span>A</span>
+        <input name="xScale" min="0.01" max="2" step=".1" type="number"/>
+      </label>
+      <label>
+        <span>B</span>
+        <input name="yScale" min="0.01" max="2" step=".1" type="number"/>
+      </label>
+      
     </fieldset>
 
     <fieldset>
@@ -144,14 +159,6 @@
       <label>
         <span>Rings</span>
         <input name="nRings" min="1" step="1" type="number"/>
-      </label>
-      <label>
-        <span>X-scale</span>
-        <input name="xScale" min="0.01" max="2" step=".1" type="number"/>
-      </label>
-      <label>
-        <span>Y-scale</span>
-        <input name="yScale" min="0.01" max="2" step=".1" type="number"/>
       </label>
       
       <a href="https://github.com/ericfortis/lissajous" target="_blank">
