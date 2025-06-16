@@ -45,7 +45,7 @@
         legend {
           color: #b3b3b3;
         }
-        
+
         a:first-of-type {
           margin-left: 8px;
         }
@@ -105,14 +105,41 @@
         <input name="animate" type="checkbox"/>
         <span>Animate</span>
       </label>
+      <label>
+        <input name="sound" type="checkbox"/>
+        <span>Sound</span>
+      </label>
     </fieldset>
 
     <fieldset>
       <legend>
         <math>
-          <mi>x</mi><mo>=</mo><mi>A</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>a</mi><mi>t</mi><mo>+</mo><mi>δ</mi><mo>)</mo>
-          <mo>,</mo><mspace width="6px"/>
-          <mi>y</mi><mo>=</mo><mi>B</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>b</mi><mi>t</mi><mo>)</mo>
+          <mi>x</mi>
+          <mo>=</mo>
+          <mi>A</mi>
+          <mspace width="2px"/>
+          <mi>sin</mi>
+          <mo>⁡</mo>
+          <mo>(</mo>
+          <mi>a</mi>
+          <mi>t</mi>
+          <mo>+</mo>
+          <mi>δ</mi>
+          <mo>)</mo>
+
+          <mo>,</mo>
+          <mspace width="6px"/>
+
+          <mi>y</mi>
+          <mo>=</mo>
+          <mi>B</mi>
+          <mspace width="2px"/>
+          <mi>sin</mi>
+          <mo>⁡</mo>
+          <mo>(</mo>
+          <mi>b</mi>
+          <mi>t</mi>
+          <mo>)</mo>
         </math>
       </legend>
       <label>
@@ -225,6 +252,80 @@
       b: 6,
       delta: 90
     },
+
+    /** # Musical Intervals */
+    '🎵 P1 (Unison)': {
+      ...defaults,
+      a: 1,
+      b: 1,
+    },
+    '🎵 M2': {
+      ...defaults,
+      a: 9,
+      b: 8,
+    },
+    '🎵 m3': {
+      ...defaults,
+      a: 6,
+      b: 5,
+    },
+    '🎵 M3': {
+      ...defaults,
+      a: 5,
+      b: 4,
+    },
+    '🎵 P4': {
+      ...defaults,
+      a: 4,
+      b: 3,
+    },
+    '🎵 A4 (7-limit tuning)': {
+      ...defaults,
+      a: 7,
+      b: 5,
+    },
+    '🎵 A4 (Theoretical)': {
+      ...defaults,
+      a: 45,
+      b: 32,
+    },
+    '🎵 A4 (Equal Temperament)': {
+      ...defaults,
+      a: Math.sqrt(2),
+      b: 1,
+    },
+    '🎵 P5': {
+      ...defaults,
+      a: 3,
+      b: 2,
+    },
+    '🎵 m6': {
+      ...defaults,
+      a: 8,
+      b: 5,
+    },
+    '🎵 M6': {
+      ...defaults,
+      a: 5,
+      b: 3,
+    },
+    '🎵 m7': {
+      ...defaults,
+      a: 9,
+      b: 5,
+    },
+    '🎵 M7': {
+      ...defaults,
+      a: 15,
+      b: 8,
+    },
+    '🎵 P8 (Octave)': {
+      ...defaults,
+      a: 2,
+      b: 1,
+    },
+
+    /** # Shapes */
     'Ellipse': {
       ...defaults,
       a: 1,
@@ -349,76 +450,6 @@
       step: 60
     },
 
-    '🎵 P1 (Unison)': {
-      ...defaults,
-      a: 1,
-      b: 1,
-    },
-    '🎵 M2': {
-      ...defaults,
-      a: 9,
-      b: 8,
-    },
-    '🎵 m3': {
-      ...defaults,
-      a: 6,
-      b: 5,
-    },
-    '🎵 M3': {
-      ...defaults,
-      a: 5,
-      b: 4,
-    },
-    '🎵 P4': {
-      ...defaults,
-      a: 4,
-      b: 3,
-    },
-    '🎵 A4 (7-limit tuning)': {
-      ...defaults,
-      a: 7,
-      b: 5,
-    },
-    '🎵 A4 (Theoretical)': {
-      ...defaults,
-      a: 45,
-      b: 32,
-    },
-    '🎵 A4 (Equal Temperament)': {
-      ...defaults,
-      a: Math.sqrt(2),
-      b: 1,
-    },
-    '🎵 P5': {
-      ...defaults,
-      a: 3,
-      b: 2,
-    },
-    '🎵 m6': {
-      ...defaults,
-      a: 8,
-      b: 5,
-    },
-    '🎵 M6': {
-      ...defaults,
-      a: 5,
-      b: 3,
-    },
-    '🎵 m7': {
-      ...defaults,
-      a: 9,
-      b: 5,
-    },
-    '🎵 M7': {
-      ...defaults,
-      a: 15,
-      b: 8,
-    },
-    '🎵 P8 (Octave)': {
-      ...defaults,
-      a: 2,
-      b: 1,
-    },
   }
 
   const preset = new URLSearchParams(window.location.search).get('preset')
@@ -429,6 +460,7 @@
   const state = {
     ...Presets[initialPreset],
     animate: true,
+    sound: true,
     nRings: 1
   }
 
@@ -438,6 +470,7 @@
     const form = document.querySelector('header > form')
     const allNumericInputs = form.querySelectorAll('[type="number"]')
     const animateCheckbox = form.querySelector('[name="animate"]')
+    const soundCheckbox = form.querySelector('[name="sound"]')
     const presetsDropdown = form.querySelector('[name="presets"]')
 
     // Populate Presets Options
@@ -455,6 +488,7 @@
       for (const [k, v] of Object.entries(state))
         form.elements[k].value = v
       animateCheckbox.checked = state.animate
+      soundCheckbox.checked = state.sound
     }
 
     /* Event Handlers */
@@ -462,18 +496,25 @@
     presetsDropdown.addEventListener('change', (event) => {
       Object.assign(state, Presets[event.target.value])
       syncState()
+      playMusicalInterval()
     })
 
     for (const input of allNumericInputs)
       input.addEventListener('change', function () {
         state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
         this.value = state[this.name]
-        if (this.name !== 'nRings')
+        if (this.name !== 'nRings') 
           presetsDropdown.value = ''
+        playMusicalInterval()
       })
 
     animateCheckbox.addEventListener('change', function () {
       state.animate = this.checked
+    })
+    
+    soundCheckbox.addEventListener('change', function () {
+      state.sound = this.checked
+      playMusicalInterval()
     })
   }
 
@@ -531,6 +572,36 @@
       }
 
       raf = requestAnimationFrame(render)
+    }
+  }
+
+
+  function playMusicalInterval() {
+    if (!state.sound)
+      return
+    
+    const ratioA = state.a
+    const ratioB = state.b
+    const BASE_FQ = 329.6 // E4
+
+    const context = new AudioContext()
+    const gn = context.createGain()
+
+    oscA = oscillatorFor(BASE_FQ * ratioA)
+    oscB = oscillatorFor(BASE_FQ * ratioB)
+
+    gn.connect(context.destination)
+    gn.gain.setValueAtTime(0.1, context.currentTime) // volume
+    gn.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 1)
+
+    function oscillatorFor(fq) {
+      const osc = context.createOscillator()
+      osc.type = 'sine'
+      osc.connect(gn)
+      osc.frequency.value = fq
+      osc.start(0)
+      osc.stop(1) // duration sec
+      return osc
     }
   }
 </script>
