@@ -213,253 +213,224 @@
 </body>
 
 <script>
-  const defaults = {
-    minAngle: 0,
-    maxAngle: 360,
-    step: 1,
-    xScale: 1,
-    yScale: 1,
-    delta: 0
-  }
-
-  const Presets = {
-    'Logo Meta': {
-      ...defaults,
-      a: 1,
-      b: -2,
-      delta: 9
-    },
-    'Logo Australian Broad Casting Corp': {
-      ...defaults,
-      a: 1,
-      b: 3,
-      delta: 90
-    },
-    'Logo Lincoln Lab at MIT': {
-      ...defaults,
-      a: 3,
-      b: 4,
-      delta: 90
-    },
-    'Logo Else at Berlin': {
-      ...defaults,
-      a: 3,
-      b: 2,
-      delta: 90
-    },
-    'Logo University Electro-Communication Japan': {
-      ...defaults,
-      a: 5,
-      b: 6,
-      delta: 90
-    },
-
-    /** # Musical Intervals */
-    '🎵 P1 (Unison)': {
-      ...defaults,
-      a: 1,
-      b: 1,
-    },
-    '🎵 M2': {
-      ...defaults,
-      a: 9,
-      b: 8,
-    },
-    '🎵 m3': {
-      ...defaults,
-      a: 6,
-      b: 5,
-    },
-    '🎵 M3': {
-      ...defaults,
-      a: 5,
-      b: 4,
-    },
-    '🎵 P4': {
-      ...defaults,
-      a: 4,
-      b: 3,
-    },
-    '🎵 A4 (7-limit tuning)': {
-      ...defaults,
-      a: 7,
-      b: 5,
-    },
-    '🎵 A4 (Theoretical)': {
-      ...defaults,
-      a: 45,
-      b: 32,
-    },
-    '🎵 A4 (Equal Temperament)': {
-      ...defaults,
-      a: Math.sqrt(2),
-      b: 1,
-    },
-    '🎵 P5': {
-      ...defaults,
-      a: 3,
-      b: 2,
-    },
-    '🎵 m6': {
-      ...defaults,
-      a: 8,
-      b: 5,
-    },
-    '🎵 M6': {
-      ...defaults,
-      a: 5,
-      b: 3,
-    },
-    '🎵 m7': {
-      ...defaults,
-      a: 9,
-      b: 5,
-    },
-    '🎵 M7': {
-      ...defaults,
-      a: 15,
-      b: 8,
-    },
-    '🎵 P8 (Octave)': {
-      ...defaults,
-      a: 2,
-      b: 1,
-    },
-
-    /** # Shapes */
-    'Ellipse': {
-      ...defaults,
-      a: 1,
-      b: -1,
-      delta: 0
-    },
-    'Triangle': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 90,
-      step: 120,
-    },
-    'Square': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 90,
-      step: 90
-    },
-    'Hexagon': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 90,
-      step: 60
-    },
-    'Octagon': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 90,
-      step: 45
-    },
-    'Circle': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 90
-    },
-    'Line Vertical': {
-      ...defaults,
-      a: 0,
-      b: 1,
-      delta: 0
-    },
-    'Line Horizontal': {
-      ...defaults,
-      a: 1,
-      b: 0,
-      delta: 0
-    },
-    'Line Diagonal': {
-      ...defaults,
-      a: 1,
-      b: 1,
-      delta: 180
-    },
-    'Spring': {
-      ...defaults,
-      a: 6,
-      b: 1,
-      delta: 15
-    },
-    'Eight': {
-      ...defaults,
-      a: 2,
-      b: 1,
-      delta: 57,
-      xScale: 0.4,
-      animate: false
-    },
-    'Infinity': {
-      ...defaults,
-      a: 1,
-      b: 2,
-      delta: 60,
-      yScale: 0.4,
-      animate: false
-    },
-    'Parabola': {
-      ...defaults,
-      a: 1,
-      b: 2,
-      delta: 286,
-      animate: false
-    },
-    'Cat': {
-      ...defaults,
-      a: 1,
-      b: 2,
-      delta: 90,
-      step: 60,
-      animate: false
-    },
-    'Star 5': {
-      ...defaults,
-      a: 4,
-      b: 4,
-      delta: 90,
-      step: 54
-    },
-    'Star 9': {
-      ...defaults,
-      a: 4,
-      b: 4,
-      delta: 90,
-      step: 40
-    },
-    'Star 8': {
-      ...defaults,
-      a: 3,
-      b: 21,
+  function Preset(opts) {
+    return {
+      minAngle: 0,
+      maxAngle: 360,
+      step: 1,
+      xScale: 1,
+      yScale: 1,
       delta: 0,
-      step: 45
-    },
-    'Saw': {
-      ...defaults,
-      a: 1,
-      b: 3,
-      delta: 33,
-      step: 60
-    },
-
+      ...opts
+    }
   }
 
-  const preset = new URLSearchParams(window.location.search).get('preset')
-  const initialPreset = preset in Presets
-    ? preset
-    : Object.keys(Presets)[0]
+  const groupedPresets = {
+    'Logos': {
+      'Meta': Preset({
+        a: 1,
+        b: -2,
+        delta: 9
+      }),
+      'Australian Broad Casting Corp': Preset({
+        a: 1,
+        b: 3,
+        delta: 90
+      }),
+      'Lincoln Lab at MIT': Preset({
+        a: 3,
+        b: 4,
+        delta: 90
+      }),
+      'Else at Berlin': Preset({
+        a: 3,
+        b: 2,
+        delta: 90
+      }),
+      'University Electro-Communication Japan': Preset({
+        a: 5,
+        b: 6,
+        delta: 90
+      })
+    },
+    'Musical Intervals': {
+      'P1 (Unison)': Preset({
+        a: 1,
+        b: 1,
+      }),
+      'M2': Preset({
+        a: 9,
+        b: 8,
+      }),
+      'm3': Preset({
+        a: 6,
+        b: 5,
+      }),
+      'M3': Preset({
+        a: 5,
+        b: 4,
+      }),
+      'P4': Preset({
+        a: 4,
+        b: 3,
+      }),
+      'A4 (7-limit tuning)': Preset({
+        a: 7,
+        b: 5,
+      }),
+      'A4 (Theoretical)': Preset({
+        a: 45,
+        b: 32,
+      }),
+      'A4 (Equal Temperament)': Preset({
+        a: Math.sqrt(2),
+        b: 1,
+      }),
+      'P5': Preset({
+        a: 3,
+        b: 2,
+      }),
+      'm6': Preset({
+        a: 8,
+        b: 5,
+      }),
+      'M6': Preset({
+        a: 5,
+        b: 3,
+      }),
+      'm7': Preset({
+        a: 9,
+        b: 5,
+      }),
+      'M7': Preset({
+        a: 15,
+        b: 8,
+      }),
+      'P8 (Octave)': Preset({
+        a: 2,
+        b: 1,
+      }),
+    },
+    'Shapes': {
+      'Ellipse': Preset({
+        a: 1,
+        b: -1,
+        delta: 0
+      }),
+      'Triangle': Preset({
+        a: 1,
+        b: 1,
+        delta: 90,
+        step: 120,
+      }),
+      'Square': Preset({
+        a: 1,
+        b: 1,
+        delta: 90,
+        step: 90
+      }),
+      'Hexagon': Preset({
+        a: 1,
+        b: 1,
+        delta: 90,
+        step: 60
+      }),
+      'Octagon': Preset({
+        a: 1,
+        b: 1,
+        delta: 90,
+        step: 45
+      }),
+      'Circle': Preset({
+        a: 1,
+        b: 1,
+        delta: 90
+      }),
+      'Line Vertical': Preset({
+        a: 0,
+        b: 1,
+        delta: 0
+      }),
+      'Line Horizontal': Preset({
+        a: 1,
+        b: 0,
+        delta: 0
+      }),
+      'Line Diagonal': Preset({
+        a: 1,
+        b: 1,
+        delta: 180
+      }),
+      'Spring': Preset({
+        a: 6,
+        b: 1,
+        delta: 15
+      }),
+      'Eight': Preset({
+        a: 2,
+        b: 1,
+        delta: 57,
+        xScale: 0.4,
+        animate: false
+      }),
+      'Infinity': Preset({
+        a: 1,
+        b: 2,
+        delta: 60,
+        yScale: 0.4,
+        animate: false
+      }),
+      'Parabola': Preset({
+        a: 1,
+        b: 2,
+        delta: 286,
+        animate: false
+      }),
+      'Cat': Preset({
+        a: 1,
+        b: 2,
+        delta: 90,
+        step: 60,
+        animate: false
+      }),
+      'Star 5': Preset({
+        a: 4,
+        b: 4,
+        delta: 90,
+        step: 54
+      }),
+      'Star 9': Preset({
+        a: 4,
+        b: 4,
+        delta: 90,
+        step: 40
+      }),
+      'Star 8': Preset({
+        a: 3,
+        b: 21,
+        delta: 0,
+        step: 45
+      }),
+      'Saw': Preset({
+        a: 1,
+        b: 3,
+        delta: 33,
+        step: 60
+      })
+    }
+  }
+
+  const flatPresets = {}
+  for (const groupPresets of Object.values(groupedPresets))
+    Object.assign(flatPresets, groupPresets)
+
+  const urlPreset = new URLSearchParams(window.location.search).get('preset')
+  const initialPresetName = urlPreset in flatPresets
+    ? urlPreset
+    : Object.keys(flatPresets)[0]
 
   const state = {
-    ...Presets[initialPreset],
+    ...flatPresets[initialPresetName],
     animate: true,
     sound: true,
     nRings: 1
@@ -469,19 +440,24 @@
 
   function setupControls() {
     const form = document.querySelector('header > form')
-    const allNumericInputs = form.querySelectorAll('[type="number"]')
-    const animateCheckbox = form.querySelector('[name="animate"]')
-    const soundCheckbox = form.querySelector('[name="sound"]')
-    const presetsDropdown = form.querySelector('[name="presets"]')
+    const allNumericInputs = form.querySelectorAll('[type=number]')
+    const animateCheckbox = form.querySelector('[name=animate]')
+    const soundCheckbox = form.querySelector('[name=sound]')
+    const presetsDropdown = form.querySelector('[name=presets]')
 
     // Populate Presets Options
-    for (const k of Object.keys(Presets)) {
-      const option = document.createElement('option')
-      option.value = k
-      option.text = k
-      presetsDropdown.add(option)
+    for (const [groupKey, groupPresets] of Object.entries(groupedPresets)) {
+      const optGroup = document.createElement('optgroup')
+      optGroup.label = groupKey
+      for (const k of Object.keys(groupPresets)) {
+        const option = document.createElement('option')
+        option.value = k
+        option.text = k
+        optGroup.appendChild(option)
+      }
+      presetsDropdown.add(optGroup)
     }
-    presetsDropdown.value = initialPreset
+    presetsDropdown.value = initialPresetName
 
     syncState()
 
@@ -492,10 +468,11 @@
       soundCheckbox.checked = state.sound
     }
 
-    /* Event Handlers */
+
+    /** ## Event Handlers */
 
     presetsDropdown.addEventListener('change', (event) => {
-      Object.assign(state, Presets[event.target.value])
+      Object.assign(state, flatPresets[event.target.value])
       syncState()
       playMusicalInterval()
     })
@@ -504,7 +481,7 @@
       input.addEventListener('change', function () {
         state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
         this.value = state[this.name]
-        if (this.name !== 'nRings') 
+        if (this.name !== 'nRings')
           presetsDropdown.value = ''
         playMusicalInterval()
       })
@@ -512,7 +489,7 @@
     animateCheckbox.addEventListener('change', function () {
       state.animate = this.checked
     })
-    
+
     soundCheckbox.addEventListener('change', function () {
       state.sound = this.checked
       playMusicalInterval()
@@ -580,9 +557,9 @@
   function playMusicalInterval() {
     if (!state.sound)
       return
-    
     const ratioA = state.a
     const ratioB = state.b
+
     const BASE_FQ = 329.6 // E4
 
     const context = new AudioContext()
@@ -601,7 +578,7 @@
       osc.connect(gn)
       osc.frequency.value = fq
       osc.start(0)
-      osc.stop(1) // duration sec
+      osc.stop(1) // duration secs
       return osc
     }
   }
