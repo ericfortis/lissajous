@@ -11,6 +11,7 @@ Lissajous curves are looping patterns formed by plotting two sine waves at right
     <mi>y</mi><mo>=</mo><mi>B</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>b</mi><mi>t</mi><mo>)</mo>
 </math>
 
+<br/>
 
 Some corporate logos are stylized versions of these
 curves — including Meta’s and Movies Anywhere’s.
