@@ -37,7 +37,8 @@ So yes, you can hear what a corporate logo might sound like.
 
 ![](./README-lissajous-demo.png)
 
----
+
+<br/>
 
 ## License
 
