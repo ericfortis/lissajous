@@ -11,6 +11,7 @@ Lissajous curves are looping patterns formed by plotting two sine waves at right
     <mi>y</mi><mo>=</mo><mi>B</mi><mspace width="2px"/><mi>sin</mi><mo>⁡</mo><mo>(</mo><mi>b</mi><mi>t</mi><mo>)</mo>
 </math>
 
+
 Some corporate logos are stylized versions of these
 curves — including Meta’s and Movies Anywhere’s.
 
@@ -20,7 +21,7 @@ visualize musical intervals, and hear the frequency ratio.
 ## 🎵 Sound
 
 Since Lissajous curves reflect the ratio between two sine waves, we can
-visualize **musical intervals** — which are just two notes played together.
+visualize **musical intervals** — which are two notes played together.
 
 This demo lets you hear those intervals while seeing their shape.
 We use 220 Hz (A3) as the base frequency (`a = 1`). For example, a
