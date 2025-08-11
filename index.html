@@ -98,19 +98,23 @@
   <form>
     <fieldset>
       <legend>Lissajous Curve</legend>
+
       <label>
         <span>Presets</span>
         <select name="presets"></select>
       </label>
+
       <label>
         <input name="animate" type="checkbox"/>
         <span>Animate</span>
       </label>
+
       <label>
         <input name="sound" type="checkbox"/>
         <span>Sound</span>
       </label>
     </fieldset>
+
 
     <fieldset>
       <legend>
@@ -143,47 +147,57 @@
           <mo>)</mo>
         </math>
       </legend>
+
       <label>
         <span>a</span>
         <input name="a" step="0.5" type="number"/>
       </label>
+
       <label>
         <span>b</span>
         <input name="b" step="0.5" type="number"/>
       </label>
+
       <label>
         <span>δ</span>
         <input max="360" name="delta" step="1" type="number"/>
       </label>
+
       <label>
         <span>A</span>
         <input name="xScale" min="0.01" max="2" step=".1" type="number"/>
       </label>
+
       <label>
         <span>B</span>
         <input name="yScale" min="0.01" max="2" step=".1" type="number"/>
       </label>
-
     </fieldset>
+
 
     <fieldset>
       <legend>Sweep (deg)</legend>
+
       <label>
         <span>Min</span>
         <input name="minAngle" min="0" step="1" type="number"/>
       </label>
+
       <label>
         <span>Max</span>
         <input name="maxAngle" min="0" step="1" type="number"/>
       </label>
+
       <label>
         <span>Step</span>
         <input name="step" min="1" max="360" step="1" type="number"/>
       </label>
     </fieldset>
 
+
     <fieldset>
       <legend>Misc</legend>
+
       <label>
         <span>Rings</span>
         <input name="nRings" min="1" step="1" type="number"/>
@@ -196,6 +210,7 @@
             fill="#fff"/>
         </svg>
       </a>
+
       <a href="https://en.wikipedia.org/wiki/Lissajous_curve" target="_blank">
         <svg viewBox="0 0 2560 1980" width="32" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -225,326 +240,176 @@
     }
   }
 
-  const groupedPresets = {
+  const grouped_presets = {
     'Logos': {
-      'Meta': Preset({
-        a: 1,
-        b: -2,
-        delta: 9
-      }),
-      'Australian Broad Casting Corp': Preset({
-        a: 1,
-        b: 3,
-        delta: 90
-      }),
-      'Lincoln Lab at MIT': Preset({
-        a: 3,
-        b: 4,
-        delta: 90
-      }),
-      'Else at Berlin': Preset({
-        a: 3,
-        b: 2,
-        delta: 90
-      }),
-      'University Electro-Communication Japan': Preset({
-        a: 5,
-        b: 6,
-        delta: 90
-      })
+      'Meta': Preset({ a: 1, b: -2, delta: 9 }),
+      'Australian Broad Casting Corp': Preset({ a: 1, b: 3, delta: 90 }),
+      'Lincoln Lab at MIT': Preset({ a: 3, b: 4, delta: 90 }),
+      'Else at Berlin': Preset({ a: 3, b: 2, delta: 90 }),
+      'University Electro-Communication Japan': Preset({ a: 5, b: 6, delta: 90 })
     },
     'Musical Intervals': {
-      'P1 (Perfect Unison)': Preset({
-        a: 1,
-        b: 1,
-      }),
-      'M2 (Major second)': Preset({
-        a: 9,
-        b: 8,
-      }),
-      'm3 (minor third)': Preset({
-        a: 6,
-        b: 5,
-      }),
-      'M3': Preset({
-        a: 5,
-        b: 4,
-      }),
-      'P4 (Perfect fourth)': Preset({
-        a: 4,
-        b: 3,
-      }),
-      'Aug4 (7-limit tuning)': Preset({
-        a: 7,
-        b: 5,
-      }),
-      'Aug4 (Theoretical)': Preset({
-        a: 45,
-        b: 32,
-      }),
-      'Aug4 (Equal Temperament)': Preset({
-        a: Math.sqrt(2),
-        b: 1,
-      }),
-      'P5': Preset({
-        a: 3,
-        b: 2,
-      }),
-      'm6': Preset({
-        a: 8,
-        b: 5,
-      }),
-      'M6': Preset({
-        a: 5,
-        b: 3,
-      }),
-      'm7': Preset({
-        a: 9,
-        b: 5,
-      }),
-      'M7': Preset({
-        a: 15,
-        b: 8,
-      }),
-      'P8 (Octave)': Preset({
-        a: 2,
-        b: 1,
-      }),
+      'P1 (Perfect Unison)': Preset({ a: 1, b: 1 }),
+      'M2 (Major second)': Preset({ a: 9, b: 8 }),
+      'm3 (minor third)': Preset({ a: 6, b: 5 }),
+      'M3': Preset({ a: 5, b: 4 }),
+      'P4 (Perfect fourth)': Preset({ a: 4, b: 3 }),
+      'Aug4 (7-limit tuning)': Preset({ a: 7, b: 5 }),
+      'Aug4 (Theoretical)': Preset({ a: 45, b: 32 }),
+      'Aug4 (Equal Temperament)': Preset({ a: Math.sqrt(2), b: 1 }),
+      'P5': Preset({ a: 3, b: 2 }),
+      'm6': Preset({ a: 8, b: 5 }),
+      'M6': Preset({ a: 5, b: 3 }),
+      'm7': Preset({ a: 9, b: 5 }),
+      'M7': Preset({ a: 15, b: 8 }),
+      'P8 (Octave)': Preset({ a: 2, b: 1 })
     },
     'Shapes': {
-      'Ellipse': Preset({
-        a: 1,
-        b: -1,
-        delta: 0
-      }),
-      'Triangle': Preset({
-        a: 1,
-        b: 1,
-        delta: 90,
-        step: 120,
-      }),
-      'Square': Preset({
-        a: 1,
-        b: 1,
-        delta: 90,
-        step: 90
-      }),
-      'Hexagon': Preset({
-        a: 1,
-        b: 1,
-        delta: 90,
-        step: 60
-      }),
-      'Octagon': Preset({
-        a: 1,
-        b: 1,
-        delta: 90,
-        step: 45
-      }),
-      'Circle': Preset({
-        a: 1,
-        b: 1,
-        delta: 90
-      }),
-      'Line Vertical': Preset({
-        a: 0,
-        b: 1,
-        delta: 0
-      }),
-      'Line Horizontal': Preset({
-        a: 1,
-        b: 0,
-        delta: 0
-      }),
-      'Line Diagonal': Preset({
-        a: 1,
-        b: 1,
-        delta: 180
-      }),
-      'Spring': Preset({
-        a: 6,
-        b: 1,
-        delta: 15
-      }),
-      'Eight': Preset({
-        a: 2,
-        b: 1,
-        delta: 57,
-        xScale: 0.4,
-        animate: false
-      }),
-      'Infinity': Preset({
-        a: 1,
-        b: 2,
-        delta: 60,
-        yScale: 0.4,
-        animate: false
-      }),
-      'Parabola': Preset({
-        a: 1,
-        b: 2,
-        delta: 286,
-        animate: false
-      }),
-      'Cat': Preset({
-        a: 1,
-        b: 2,
-        delta: 90,
-        step: 60,
-        animate: false
-      }),
-      'Star 5': Preset({
-        a: 4,
-        b: 4,
-        delta: 90,
-        step: 54
-      }),
-      'Star 9': Preset({
-        a: 4,
-        b: 4,
-        delta: 90,
-        step: 40
-      }),
-      'Star 8': Preset({
-        a: 3,
-        b: 21,
-        delta: 0,
-        step: 45
-      }),
-      'Saw': Preset({
-        a: 1,
-        b: 3,
-        delta: 33,
-        step: 60
-      })
+      'Ellipse': Preset({ a: 1, b: -1, delta: 0 }),
+      'Triangle': Preset({ a: 1, b: 1, delta: 90, step: 120 }),
+      'Square': Preset({ a: 1, b: 1, delta: 90, step: 90 }),
+      'Hexagon': Preset({ a: 1, b: 1, delta: 90, step: 60 }),
+      'Octagon': Preset({ a: 1, b: 1, delta: 90, step: 45 }),
+      'Circle': Preset({ a: 1, b: 1, delta: 90 }),
+      'Line Vertical': Preset({ a: 0, b: 1, delta: 0 }),
+      'Line Horizontal': Preset({ a: 1, b: 0, delta: 0 }),
+      'Line Diagonal': Preset({ a: 1, b: 1, delta: 180 }),
+      'Spring': Preset({ a: 6, b: 1, delta: 15 }),
+      'Eight': Preset({ a: 2, b: 1, delta: 57, xScale: 0.4, animate: false }),
+      'Infinity': Preset({ a: 1, b: 2, delta: 60, yScale: 0.4, animate: false }),
+      'Parabola': Preset({ a: 1, b: 2, delta: 286, animate: false }),
+      'Cat': Preset({ a: 1, b: 2, delta: 90, step: 60, animate: false }),
+      'Star 5': Preset({ a: 4, b: 4, delta: 90, step: 54 }),
+      'Star 9': Preset({ a: 4, b: 4, delta: 90, step: 40 }),
+      'Star 8': Preset({ a: 3, b: 21, delta: 0, step: 45 }),
+      'Saw': Preset({ a: 1, b: 3, delta: 33, step: 60 })
     }
   }
 
-  const flatPresets = {}
-  for (const groupPresets of Object.values(groupedPresets))
-    Object.assign(flatPresets, groupPresets)
+  const flat_presets = {}
+  for (const gp of Object.values(grouped_presets))
+    Object.assign(flat_presets, gp)
 
-  const urlPreset = new URLSearchParams(window.location.search).get('preset')
-  const initialPresetName = urlPreset in flatPresets
-    ? urlPreset
-    : Object.keys(flatPresets)[0]
+  const url_preset = new URLSearchParams(window.location.search).get('preset')
+  const initial_preset_name = url_preset in flat_presets
+    ? url_preset
+    : Object.keys(flat_presets)[0]
 
   const state = {
-    ...flatPresets[initialPresetName],
+    ...flat_presets[initial_preset_name],
     animate: true,
     sound: true,
     nRings: 1
   }
 
-  setupControls()
+  setup_controls()
 
-  function setupControls() {
+  function setup_controls() {
     const form = document.querySelector('header > form')
-    const allNumericInputs = form.querySelectorAll('[type=number]')
-    const animateCheckbox = form.querySelector('[name=animate]')
-    const soundCheckbox = form.querySelector('[name=sound]')
-    const presetsDropdown = form.querySelector('[name=presets]')
+    const all_numeric_inputs = form.querySelectorAll('[type=number]')
+    const animate_checkbox = form.querySelector('[name=animate]')
+    const sound_checkbox = form.querySelector('[name=sound]')
+    const presets_dropdown = form.querySelector('[name=presets]')
 
     // Populate Presets Options
-    for (const [groupKey, groupPresets] of Object.entries(groupedPresets)) {
-      const optGroup = document.createElement('optgroup')
-      optGroup.label = groupKey
-      for (const k of Object.keys(groupPresets)) {
+    for (const [gk, gp] of Object.entries(grouped_presets)) {
+      const opt_group = document.createElement('optgroup')
+      opt_group.label = gk
+      for (const k of Object.keys(gp)) {
         const option = document.createElement('option')
         option.value = k
         option.text = k
-        optGroup.appendChild(option)
+        opt_group.appendChild(option)
       }
-      presetsDropdown.add(optGroup)
+      presets_dropdown.add(opt_group)
     }
-    presetsDropdown.value = initialPresetName
+    presets_dropdown.value = initial_preset_name
 
-    syncState()
+    sync_state()
 
-    function syncState() {
+    function sync_state() {
       for (const [k, v] of Object.entries(state))
         form.elements[k].value = v
-      animateCheckbox.checked = state.animate
-      soundCheckbox.checked = state.sound
+      animate_checkbox.checked = state.animate
+      sound_checkbox.checked = state.sound
     }
 
 
     /** ## Event Handlers */
 
-    presetsDropdown.addEventListener('change', (event) => {
-      Object.assign(state, flatPresets[event.target.value])
-      syncState()
-      playMusicalInterval()
+    presets_dropdown.addEventListener('change', (event) => {
+      Object.assign(state, flat_presets[event.target.value])
+      sync_state()
+      play_musical_interval()
     })
 
-    for (const input of allNumericInputs)
+    for (const input of all_numeric_inputs)
       input.addEventListener('change', function () {
         state[this.name] = Math.max(this.valueAsNumber, this.min || Number.MIN_SAFE_INTEGER)
         this.value = state[this.name]
         if (this.name !== 'nRings')
-          presetsDropdown.value = ''
-        playMusicalInterval()
+          presets_dropdown.value = ''
+        play_musical_interval()
       })
 
-    animateCheckbox.addEventListener('change', function () {
+    animate_checkbox.addEventListener('change', function () {
       state.animate = this.checked
     })
 
-    soundCheckbox.addEventListener('change', function () {
+    sound_checkbox.addEventListener('change', function () {
       state.sound = this.checked
-      playMusicalInterval()
+      play_musical_interval()
     })
   }
 
 
   const canvas = document.getElementById('lissajous-curve')
   canvas.style.position = 'absolute' // don’t interfere when resizing the parent
-  drawLissajousCurveAnimation(canvas)
+  draw_lissajous_curve_animation(canvas)
 
   /**
    * https://en.wikipedia.org/wiki/Lissajous_curve
    * @param canvas {HTMLCanvasElement}
    */
-  function drawLissajousCurveAnimation(canvas) {
+  function draw_lissajous_curve_animation(canvas) {
     const radians = deg => deg * Math.PI / 180
 
     const ctx = canvas.getContext('2d')
 
-    let width, height, xOrigin, yOrigin, maxAmplitude, raf
-    setupDimensions()
-    window.addEventListener('resize', setupDimensions)
+    let width, height, x_origin, y_origin, max_amplitude, raf
+    setup_dimensions()
+    window.addEventListener('resize', setup_dimensions)
 
-    function setupDimensions() {
+    function setup_dimensions() {
       const size = canvas.parentElement.getBoundingClientRect()
       canvas.width = width = size.width
       canvas.height = height = size.height
-      xOrigin = width / 2
-      yOrigin = height / 2
-      maxAmplitude = Math.min(height, width) / 4
+      x_origin = width / 2
+      y_origin = height / 2
+      max_amplitude = Math.min(height, width) / 4
 
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(render)
     }
 
     function render(elapsed) {
-      const {a, b, delta, minAngle, maxAngle, step, animate, nRings, xScale, yScale} = state
-      const deltaRad = radians(delta)
-      const secondsSoFar = animate ? elapsed / 1000 : 1
+      const { a, b, delta, minAngle, maxAngle, step, animate, nRings, xScale, yScale } = state
+      const delta_rad = radians(delta)
+      const seconds_so_far = animate ? elapsed / 1000 : 1
 
       ctx.clearRect(0, 0, width, height)
-      ctx.lineWidth = 5
+      ctx.lineWidth = 10
       ctx.shadowBlur = 10
       ctx.shadowColor = '#64dd17'
       ctx.strokeStyle = '#a8f876cc'
 
       for (let i = 1; i <= nRings; i++) {
-        const amplitude = i / nRings * maxAmplitude
+        const amplitude = i / nRings * max_amplitude
         ctx.beginPath()
         for (let angle = minAngle; angle < maxAngle + step; angle += step) {
-          const angRad = radians(angle)
           ctx.lineTo(
-            xOrigin + amplitude * xScale * Math.sin(secondsSoFar + a * angRad + deltaRad),
-            yOrigin + amplitude * yScale * Math.sin(secondsSoFar + b * angRad))
+            x_origin + amplitude * xScale * Math.sin(seconds_so_far + a * radians(angle) + delta_rad),
+            y_origin + amplitude * yScale * Math.sin(seconds_so_far + b * radians(angle)))
         }
         ctx.stroke()
       }
@@ -554,7 +419,7 @@
   }
 
 
-  function playMusicalInterval() {
+  function play_musical_interval() {
     if (!state.sound)
       return
     const ratioA = state.a
