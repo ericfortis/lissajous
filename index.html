@@ -317,7 +317,6 @@
   }
 
   setup_controls()
-
   function setup_controls() {
     const form = document.querySelector('header > form')
     const all_numeric_inputs = form.querySelectorAll('[type=number]')
@@ -381,10 +380,7 @@
   canvas.style.position = 'absolute' // don’t interfere when resizing the parent
   draw_lissajous_curve_animation(canvas)
 
-  /**
-   * https://en.wikipedia.org/wiki/Lissajous_curve
-   * @param canvas {HTMLCanvasElement}
-   */
+  /** @param {HTMLCanvasElement} canvas */
   function draw_lissajous_curve_animation(canvas) {
     const radians = deg => deg * Math.PI / 180
 
@@ -416,6 +412,7 @@
       ctx.shadowBlur = 10
       ctx.shadowColor = '#64dd17'
       ctx.strokeStyle = '#a8f876cc'
+      ctx.lineJoin = 'round'
 
       for (let i = 1; i <= nRings; i++) {
         const amplitude = i / nRings * max_amplitude
