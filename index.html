@@ -8,6 +8,7 @@
   <style>
     * {
       box-sizing: border-box;
+      corner-shape: squircle;
     }
 
     html,
@@ -30,7 +31,7 @@
     header {
       display: flex;
       justify-content: center;
-      background: #111;
+      background: #171717;
 
       form {
         @media (min-width: 1000px) and (max-width: 1250px) {
@@ -77,10 +78,11 @@
           padding: 4px;
           border: 0;
           margin: 0;
-          border-radius: 4px;
-          background: #3c3c3c;
+          border-radius: 16px;
+          background: #333333;
           color: white;
           outline: 0;
+          cursor: pointer;
 
           &:focus {
             outline: 1px solid dodgerblue;
@@ -192,12 +194,12 @@
 
       <label>
         <span>Min</span>
-        <input name="minAngle" min="0" step="1" type="number"/>
+        <input name="minAngle" min="0" step="15" type="number"/>
       </label>
 
       <label>
         <span>Max</span>
-        <input name="maxAngle" min="0" step="1" type="number"/>
+        <input name="maxAngle" min="0" step="15" type="number"/>
       </label>
 
       <label>
