@@ -384,43 +384,47 @@
   function draw_lissajous_curve_animation(canvas) {
     const radians = deg => deg * Math.PI / 180
 
-    const ctx = canvas.getContext('2d')
-
     let width, height, x_origin, y_origin, max_amplitude, raf
-    setup_dimensions()
-    window.addEventListener('resize', setup_dimensions)
-
-    function setup_dimensions() {
+    const ctx = canvas.getContext('2d')
+    
+    window.addEventListener('resize', setup)
+    setup()
+    function setup() {
       const size = canvas.parentElement.getBoundingClientRect()
       canvas.width = width = size.width
       canvas.height = height = size.height
       x_origin = width / 2
       y_origin = height / 2
       max_amplitude = Math.min(height, width) / 4
-
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(render)
-    }
-
-    function render(elapsed) {
-      const { a, b, delta, minAngle, maxAngle, step, animate, nRings, xScale, yScale } = state
-      const delta_rad = radians(delta)
-      const seconds_so_far = animate ? elapsed / 1000 : 1
-
-      ctx.clearRect(0, 0, width, height)
+      
       ctx.lineWidth = 7
       ctx.shadowBlur = 10
       ctx.shadowColor = '#64dd17'
       ctx.strokeStyle = '#a8f876cc'
       ctx.lineJoin = 'round'
 
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(render)
+    }
+
+
+    function render(elapsed) {
+      const { a, b, delta, minAngle, maxAngle, step, animate, nRings, xScale, yScale } = state
+      const delta_rad = radians(delta)
+      const time = animate ? elapsed / 1000 : 1
+
+      ctx.clearRect(0, 0, width, height)
       for (let i = 1; i <= nRings; i++) {
         const amplitude = i / nRings * max_amplitude
+        const ax = amplitude * xScale
+        const ay = amplitude * yScale
         ctx.beginPath()
-        for (let angle = minAngle; angle < maxAngle + step; angle += step)
+        for (let deg = minAngle; deg < maxAngle + step; deg += step) {
+          const rad = radians(deg)
           ctx.lineTo(
-            x_origin + amplitude * xScale * Math.sin(seconds_so_far + a * radians(angle) + delta_rad),
-            y_origin + amplitude * yScale * Math.sin(seconds_so_far + b * radians(angle)))
+            x_origin + ax * Math.sin(time + a * rad + delta_rad),
+            y_origin + ay * Math.sin(time + b * rad))
+        }
         ctx.stroke()
       }
 
@@ -433,7 +437,7 @@
   function play_musical_interval() {
     if (!state.sound)
       return
-    
+
     const { a, b } = state
     const BASE_FQ = 220 // A3
 
