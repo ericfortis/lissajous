@@ -430,32 +430,31 @@
   }
 
 
+  const audio_ctx = new AudioContext()
   function play_musical_interval() {
     if (!state.sound)
       return
-    const ratioA = state.a
-    const ratioB = state.b
-
+    
+    const { a, b } = state
     const BASE_FQ = 220 // A3
 
-    const context = new AudioContext()
-    const gn = context.createGain()
+    const gn = audio_ctx.createGain()
+    gn.connect(audio_ctx.destination)
 
-    oscA = oscillatorFor(BASE_FQ * ratioA)
-    oscB = oscillatorFor(BASE_FQ * ratioB)
+    const now = audio_ctx.currentTime
+    gn.gain.setValueAtTime(0.1, now) // volume
+    gn.gain.exponentialRampToValueAtTime(0.0001, now + 1)
 
-    gn.connect(context.destination)
-    gn.gain.setValueAtTime(0.1, context.currentTime) // volume
-    gn.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 1)
+    oscillatorFor(BASE_FQ * a)
+    oscillatorFor(BASE_FQ * b)
 
     function oscillatorFor(fq) {
-      const osc = context.createOscillator()
+      const osc = audio_ctx.createOscillator()
       osc.type = 'sine'
-      osc.connect(gn)
       osc.frequency.value = fq
-      osc.start(0)
-      osc.stop(1) // duration secs
-      return osc
+      osc.connect(gn)
+      osc.start(now)
+      osc.stop(now + 1) // duration 1 sec
     }
   }
 </script>
