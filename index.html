@@ -27,68 +27,76 @@
       background: linear-gradient(#262626, #000);
     }
 
-    header form {
+    header {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      padding: 16px;
-      margin: 0;
-      color: white;
-      gap: 24px 48px;
       background: #111;
 
-      fieldset {
-        display: inline-flex;
-        align-items: center;
-        border: 0;
-        gap: 8px;
-        margin: 0;
-        padding: 0;
-
-        legend {
-          color: #b3b3b3;
-          padding: 0;
+      form {
+        @media (min-width: 1000px) and (max-width: 1250px) {
+          width: 80%;
         }
-
-        a:first-of-type {
-          margin-left: 8px;
-        }
-      }
-
-      label {
         display: flex;
-        align-items: center;
-        color: #ddd;
-        gap: 3px;
-        text-wrap: nowrap;
-        user-select: none;
-      }
-
-      input,
-      select {
-        width: 50px;
-        padding: 4px;
-        border: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 16px;
         margin: 0;
-        border-radius: 4px;
-        background: #3c3c3c;
         color: white;
-        outline: 0;
+        gap: 24px 48px;
 
-        &:focus {
-          outline: 1px solid dodgerblue;
+        fieldset {
+          display: inline-flex;
+          align-items: center;
+          border: 0;
+          gap: 8px;
+          margin: 0;
+          padding: 0;
+
+          legend {
+            color: #b3b3b3;
+            padding: 0;
+          }
+
+          a:first-of-type {
+            margin-left: 8px;
+          }
         }
-      }
 
-      select {
-        width: auto;
-        max-width: 140px;
-        font-family: 'Avenir Next', system-ui;
-        text-overflow: ellipsis;
-      }
+        label {
+          display: flex;
+          align-items: center;
+          color: #ddd;
+          gap: 3px;
+          text-wrap: nowrap;
+          user-select: none;
+        }
 
-      input[type=checkbox] {
-        width: auto;
+        input,
+        select {
+          width: 50px;
+          padding: 4px;
+          border: 0;
+          margin: 0;
+          border-radius: 4px;
+          background: #3c3c3c;
+          color: white;
+          outline: 0;
+
+          &:focus {
+            outline: 1px solid dodgerblue;
+          }
+        }
+
+        select {
+          width: auto;
+          max-width: 140px;
+          font-family: 'Avenir Next', system-ui;
+          text-overflow: ellipsis;
+        }
+
+        input[type=checkbox] {
+          width: auto;
+        }
       }
     }
 
