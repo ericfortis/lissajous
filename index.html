@@ -10,7 +10,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       width: 100dvw;
       height: 100dvh;
       padding: 0;
@@ -33,17 +34,20 @@
       padding: 16px;
       margin: 0;
       color: white;
-      gap: 16px;
+      gap: 24px 48px;
+      background: #111;
 
       fieldset {
         display: inline-flex;
         align-items: center;
-        border: 1px solid #444;
+        border: 0;
         gap: 8px;
-        border-radius: 4px;
+        margin: 0;
+        padding: 0;
 
         legend {
           color: #b3b3b3;
+          padding: 0;
         }
 
         a:first-of-type {
@@ -150,12 +154,12 @@
 
       <label>
         <span>a</span>
-        <input name="a" step="0.5" type="number"/>
+        <input name="a" step="1" type="number"/>
       </label>
 
       <label>
         <span>b</span>
-        <input name="b" step="0.5" type="number"/>
+        <input name="b" step="1" type="number"/>
       </label>
 
       <label>
