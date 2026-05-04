@@ -398,7 +398,7 @@
       const seconds_so_far = animate ? elapsed / 1000 : 1
 
       ctx.clearRect(0, 0, width, height)
-      ctx.lineWidth = 10
+      ctx.lineWidth = 7
       ctx.shadowBlur = 10
       ctx.shadowColor = '#64dd17'
       ctx.strokeStyle = '#a8f876cc'
@@ -406,11 +406,10 @@
       for (let i = 1; i <= nRings; i++) {
         const amplitude = i / nRings * max_amplitude
         ctx.beginPath()
-        for (let angle = minAngle; angle < maxAngle + step; angle += step) {
+        for (let angle = minAngle; angle < maxAngle + step; angle += step)
           ctx.lineTo(
             x_origin + amplitude * xScale * Math.sin(seconds_so_far + a * radians(angle) + delta_rad),
             y_origin + amplitude * yScale * Math.sin(seconds_so_far + b * radians(angle)))
-        }
         ctx.stroke()
       }
 
