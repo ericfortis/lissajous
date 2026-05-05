@@ -10,7 +10,7 @@
       color-scheme: dark;
       --colorBg: linear-gradient(#272727, #000);
       --colorBgGrid: #00000066;
-      
+
       --colorHeaderBg: #171717;
       --colorLabel: #ccc;
       --colorText: #fff;
@@ -119,7 +119,7 @@
             outline: 1px solid var(--colorAccent);
           }
         }
-        
+
         select {
           width: auto;
           max-width: 140px;
@@ -139,6 +139,7 @@
       background-color: var(--colorBg);
       background-image: linear-gradient(var(--colorBgGrid) 1px, transparent 1px), linear-gradient(90deg, var(--colorBgGrid) 1px, transparent 1px), linear-gradient(var(--colorBgGrid) 0.5px, transparent 0.5px), linear-gradient(90deg, var(--colorBgGrid) 0.5px, transparent 0.5px);
       background-size: var(--major) var(--major), var(--major) var(--major), var(--minor) var(--minor), var(--minor) var(--minor);
+      background-position: 0 calc(50% - var(--major) / 2), 0 0, 0 calc(50% - var(--minor) / 2), 0 0;
     }
   </style>
 </head>
@@ -361,7 +362,7 @@
 
     sync_state()
     function sync_state() {
-      for (const [k, v] of Object.entries(state)) 
+      for (const [k, v] of Object.entries(state))
         form.elements[k].value = v
       animate_checkbox.checked = state.animate
       sound_checkbox.checked = state.sound
@@ -409,7 +410,6 @@
 
     window.addEventListener('resize', setup)
     setup()
-
     function setup() {
       const size = canvas.parentElement.getBoundingClientRect()
       canvas.width = width = size.width
@@ -465,7 +465,7 @@
     const BASE_FQ = 220 // A3
 
     const now = audio_ctx.currentTime
-    
+
     const gn = audio_ctx.createGain()
     gn.connect(audio_ctx.destination)
     gn.gain.setValueAtTime(0.1, now) // volume
