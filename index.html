@@ -62,7 +62,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        padding: 16px;
+        padding: 20px;
         margin: 0;
         color: var(--colorText);
         gap: 24px 48px;
@@ -322,11 +322,7 @@
   for (const gp of Object.values(grouped_presets))
     Object.assign(flat_presets, gp)
 
-  const url_preset = new URLSearchParams(window.location.search).get('preset')
-  const initial_preset_name = url_preset in flat_presets
-    ? url_preset
-    : Object.keys(flat_presets)[0]
-
+  const initial_preset_name = Object.keys(flat_presets)[0]
   const state = {
     ...flat_presets[initial_preset_name],
     animate: true,
@@ -454,7 +450,6 @@
 
 
   const audio_ctx = new AudioContext()
-
   function play_musical_interval() {
     if (!state.sound)
       return
@@ -462,10 +457,10 @@
     const { a, b } = state
     const BASE_FQ = 220 // A3
 
+    const now = audio_ctx.currentTime
+    
     const gn = audio_ctx.createGain()
     gn.connect(audio_ctx.destination)
-
-    const now = audio_ctx.currentTime
     gn.gain.setValueAtTime(0.1, now) // volume
     gn.gain.exponentialRampToValueAtTime(0.0001, now + 1)
 
