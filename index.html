@@ -8,7 +8,9 @@
   <style>
     :root {
       color-scheme: dark;
-      --colorBg: linear-gradient(#262626, #000);
+      --colorBg: linear-gradient(#272727, #000);
+      --colorBgGrid: #00000066;
+      
       --colorHeaderBg: #171717;
       --colorLabel: #ccc;
       --colorText: #fff;
@@ -132,6 +134,11 @@
 
     main {
       flex-grow: 1;
+      --major: 10vw;
+      --minor: 1vw;
+      background-color: var(--colorBg);
+      background-image: linear-gradient(var(--colorBgGrid) 1px, transparent 1px), linear-gradient(90deg, var(--colorBgGrid) 1px, transparent 1px), linear-gradient(var(--colorBgGrid) 0.5px, transparent 0.5px), linear-gradient(90deg, var(--colorBgGrid) 0.5px, transparent 0.5px);
+      background-size: var(--major) var(--major), var(--major) var(--major), var(--minor) var(--minor), var(--minor) var(--minor);
     }
   </style>
 </head>
