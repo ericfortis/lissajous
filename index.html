@@ -8,10 +8,10 @@
   <style>
     :root {
       color-scheme: dark;
-      --colorBg: linear-gradient(#272727, #000);
+      --colorBg: radial-gradient(#202720 20%, #000);
       --colorBgGrid: #00000066;
 
-      --colorHeaderBg: #171717;
+      --colorHeaderBg: #121212;
       --colorLabel: #ccc;
       --colorText: #fff;
       --colorInputBg: #333;
@@ -133,6 +133,7 @@
     }
 
     main {
+      position: relative;
       flex-grow: 1;
       --major: 10vw;
       --minor: 1vw;
@@ -140,6 +141,32 @@
       background-image: linear-gradient(var(--colorBgGrid) 1px, transparent 1px), linear-gradient(90deg, var(--colorBgGrid) 1px, transparent 1px), linear-gradient(var(--colorBgGrid) 0.5px, transparent 0.5px), linear-gradient(90deg, var(--colorBgGrid) 0.5px, transparent 0.5px);
       background-size: var(--major) var(--major), var(--major) var(--major), var(--minor) var(--minor), var(--minor) var(--minor);
       background-position: 0 calc(50% - var(--major) / 2), 0 0, 0 calc(50% - var(--minor) / 2), 0 0;
+
+      /* Thicker center lines */
+      &::after,
+      &::before {
+        content: '';
+        position: absolute;
+        background-color: var(--colorBgGrid);
+        pointer-events: none;
+      }
+      &::after {
+        top: calc(50% - 1px);
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      &::before {
+        left: calc(50% - 1px);
+        top: 0;
+        bottom: 0;
+        width: 3px;
+      }
+      
+      canvas {
+        position: absolute; /* don’t interfere when resizing the parent */
+        z-index: 100;
+      }
     }
   </style>
 </head>
@@ -398,7 +425,6 @@
 
 
   const canvas = document.getElementById('lissajous-curve')
-  canvas.style.position = 'absolute' // don’t interfere when resizing the parent
   draw_lissajous_curve_animation(canvas)
 
   /** @param {HTMLCanvasElement} canvas */
