@@ -2,13 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <link href="data:" rel="icon"/>
   <title>Lissajous Curve Interactive Demo</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --colorBg: linear-gradient(#262626, #000);
+      --colorHeaderBg: #171717;
+      --colorLabel: #ccc;
+      --colorText: #fff;
+      --colorInputBg: #333;
+      --colorAccent: dodgerblue;
+
+      --curveWidth: 7;
+      --curveColor: #a8f876cc;
+      --curveColorShadow: #64dd17;
+      --curveShadowBlur: 10;
+
+      accent-color: var(--colorAccent);
+    }
+
     * {
       box-sizing: border-box;
       corner-shape: squircle;
+      line-height: 14px;
     }
 
     html,
@@ -17,21 +35,25 @@
       height: 100dvh;
       padding: 0;
       margin: 0;
-      font-family: 'Avenir Next', system-ui;
+      font-family: "Avenir Next", system-ui, sans-serif;
       font-size: 13px;
-      background: #000;
     }
 
     body {
       display: flex;
       flex-direction: column;
-      background: linear-gradient(#262626, #000);
+      background: var(--colorBg);
+    }
+
+    label,
+    legend {
+      user-select: none;
     }
 
     header {
       display: flex;
       justify-content: center;
-      background: #171717;
+      background: var(--colorHeaderBg);
 
       form {
         @media (min-width: 1000px) and (max-width: 1250px) {
@@ -42,7 +64,7 @@
         justify-content: center;
         padding: 16px;
         margin: 0;
-        color: white;
+        color: var(--colorText);
         gap: 24px 48px;
 
         fieldset {
@@ -54,8 +76,10 @@
           padding: 0;
 
           legend {
-            color: #b3b3b3;
+            color: var(--colorLabel);
             padding: 0;
+            padding-bottom: 4px;
+            opacity: .7;
           }
 
           a:first-of-type {
@@ -66,10 +90,15 @@
         label {
           display: flex;
           align-items: center;
-          color: #ddd;
+          color: var(--colorLabel);
           gap: 3px;
           text-wrap: nowrap;
           user-select: none;
+          transition: color ease-in-out 180ms;
+
+          &:hover {
+            color: var(--colorText);
+          }
         }
 
         input,
@@ -79,20 +108,19 @@
           border: 0;
           margin: 0;
           border-radius: 16px;
-          background: #333333;
-          color: white;
+          background: var(--colorInputBg);
+          color: var(--colorText);
           outline: 0;
           cursor: pointer;
 
           &:focus {
-            outline: 1px solid dodgerblue;
+            outline: 1px solid var(--colorAccent);
           }
         }
-
+        
         select {
           width: auto;
           max-width: 140px;
-          font-family: 'Avenir Next', system-ui;
           text-overflow: ellipsis;
         }
 
@@ -179,12 +207,12 @@
 
       <label>
         <span>A</span>
-        <input name="xScale" min="0.01" max="2" step=".1" type="number"/>
+        <input name="xScale" min="0.1" max="2" step="0.1" type="number"/>
       </label>
 
       <label>
         <span>B</span>
-        <input name="yScale" min="0.01" max="2" step=".1" type="number"/>
+        <input name="yScale" min="0.1" max="2" step="0.1" type="number"/>
       </label>
     </fieldset>
 
@@ -204,7 +232,7 @@
 
       <label>
         <span>Step</span>
-        <input name="step" min="1" max="360" step="1" type="number"/>
+        <input name="step" min="1" max="360" step="15" type="number"/>
       </label>
     </fieldset>
 
@@ -339,9 +367,8 @@
     presets_dropdown.value = initial_preset_name
 
     sync_state()
-
     function sync_state() {
-      for (const [k, v] of Object.entries(state))
+      for (const [k, v] of Object.entries(state)) 
         form.elements[k].value = v
       animate_checkbox.checked = state.animate
       sound_checkbox.checked = state.sound
@@ -386,9 +413,10 @@
 
     let width, height, x_origin, y_origin, max_amplitude, raf
     const ctx = canvas.getContext('2d')
-    
+
     window.addEventListener('resize', setup)
     setup()
+
     function setup() {
       const size = canvas.parentElement.getBoundingClientRect()
       canvas.width = width = size.width
@@ -396,11 +424,12 @@
       x_origin = width / 2
       y_origin = height / 2
       max_amplitude = Math.min(height, width) / 4
-      
-      ctx.lineWidth = 7
-      ctx.shadowBlur = 10
-      ctx.shadowColor = '#64dd17'
-      ctx.strokeStyle = '#a8f876cc'
+
+      const rootStyles = getComputedStyle(document.documentElement)
+      ctx.strokeStyle = rootStyles.getPropertyValue('--curveColor')
+      ctx.shadowColor = rootStyles.getPropertyValue('--curveColorShadow')
+      ctx.shadowBlur = rootStyles.getPropertyValue('--curveShadowBlur')
+      ctx.lineWidth = rootStyles.getPropertyValue('--curveWidth')
       ctx.lineJoin = 'round'
 
       cancelAnimationFrame(raf)
@@ -434,6 +463,7 @@
 
 
   const audio_ctx = new AudioContext()
+
   function play_musical_interval() {
     if (!state.sound)
       return
