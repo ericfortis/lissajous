@@ -12,22 +12,21 @@ Lissajous curves are looping patterns formed by plotting two sine waves at right
 
 <br/>
 
-This program lets you explore them interactively: adjust parameters,
-visualize musical intervals, and hear the frequency ratio.
+This program lets you explore them interactively by adjusting parameters,
+visualizing musical intervals, and listening to the frequency ratio.
 
-## 🎵 Sound
+## Musical Intervals
 
 Since Lissajous curves reflect the ratio between two sine waves, we can
-visualize **musical intervals** — which are two notes played together.
-
-This demo lets you hear those intervals while seeing their shape.
-We use 220 Hz (A3) as the base frequency (`a = 1`). For example, a
+visualize musical intervals — which are two notes played together.
+The app lets you listen to those intervals while seeing their shape.
+We use 220 Hz (A3) as base frequency (`a = 1`). For example, a
 **perfect fifth** (3:2 ratio) plays A4 (440 Hz) and E5 (~660 Hz).
 
 So yes, you can hear what Meta’s logo might sound like.
 
 
-## 🔗 https://ericfortis.github.io/lissajous
+## Live Demo: https://ericfortis.github.io/lissajous
 
 ![](./README-lissajous-demo.png)
 
